@@ -1,0 +1,21 @@
+<div class="row">
+  <div  id="todaysmatch" class="col-xs-12">
+    <app-todaysmatch [date]="todaysDate" [matches]="todaysMatches" ></app-todaysmatch>
+  </div>
+</div>
+<div  class="row">
+  <div class="col-xs-12 col-md-12 col-lg-12">
+    <h4>Run Rate</h4>
+    <div  *ngIf="todaysMatches && todaysMatches.length">
+      <p>{{ todaysMatches[0].team1 }} vs {{ todaysMatches[0].team2 }} </p>
+      <run-rate [runratedata]="runrate"></run-rate>
+    </div>
+    <div *ngIf="todaysMatches && todaysMatches[1]">
+      <p>{{ todaysMatches[1].team1}} vs {{ todaysMatches[1].team2 }}</p>
+      <run-rate [runratedata]="runrate2"></run-rate>
+    </div>
+    <div>
+      <!-- <app-pie-chart [pieChartData]="pieChartData" ></app-pie-chart> -->
+    </div>
+  </div>
+</div>

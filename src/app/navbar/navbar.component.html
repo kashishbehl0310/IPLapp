@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+  <a class="navbar-brand" href="index.html">IPL Statistics</a>
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarResponsive">
+    <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+      <li routerLinkActive="active" class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+        <a class="nav-link"  routerLink="todays">
+          <i class="fas fas-fw fas-dashboard"></i>
+          <span class="nav-link-text">Today's Match Details</span>
+        </a>
+      </li>
+      <li routerLinkActive="active" class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+        <a class="nav-link"  routerLink="season/2016" >
+          <i class="fas fas-fw fas-area-chart"></i>
+          <span class="nav-link-text">Season Details</span>
+        </a>
+      </li>
+     
+      
+    </ul>
+    <ul class="navbar-nav sidenav-toggler">
+      <li class="nav-item">
+        <a class="nav-link text-center" id="sidenavToggler">
+            View on Github
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

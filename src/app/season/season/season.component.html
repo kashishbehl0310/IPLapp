@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-xs-12 col-lg-12">
+    <div class="card">
+      <h1 class="text-muted">Winning Statistics of Season <small>{{season}}</small></h1>
+      <app-pie-chart [pieChartData]="piechartData" ></app-pie-chart>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-lg-12">
+    <h4 class="text-muted">Match Statistics of Season <small>{{ season }}</small> </h4>
+    <app-seasontable [matches]="seasonMatches" [season]="season"></app-seasontable>
+  </div>
+</div>

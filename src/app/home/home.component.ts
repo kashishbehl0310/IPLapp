@@ -1,0 +1,141 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { HomeService } from './home.service';
+
+import { Match } from '../model/match';
+import { RunRate } from '../model/RunRate';
+import { PieChart } from '../model/PieChart';
+// import { PieChart } from 'nvd3';
+
+
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
+})
+export class HomeComponent implements OnInit {
+
+  todaysDate: String;
+  season: String;
+  seasonMatches: Match[];
+  todaysMatches: Match[];
+  runrate: RunRate[];
+  runrate2: RunRate[];
+  pieChartData: PieChart[];
+
+  downloadingDeliveries: Boolean = true;
+
+  constructor(
+    private homeService: HomeService,
+    private route: ActivatedRoute
+  ) { }
+
+  ngOnInit() {
+
+    this.route.paramMap
+      .subscribe(params => {
+        this.todaysDate = params.get('date');
+        this.season = params.get('season');
+      })
+
+    let p1 = new Promise((resolve, reject) => {
+      this.homeService.populateData({
+        path: 'assets/data/matches_new.csv',
+        dbName: 'matches',
+        collection: 'matches',
+        id: 'id'
+      })
+        .then(message => {
+          this.initialiseData(resolve, reject);
+        })
+        .catch(error => {
+          this.initialiseData(resolve, reject);
+        });
+    });
+
+    let p2 = new Promise((resolve, reject) => {
+      this.homeService.initialiseDeliveryWorker('assets/data/deliveries.csv')
+        .then(message => {
+          resolve();
+        })
+        .catch(error => {
+          reject();
+        });
+    });
+
+    Promise.all([p1,p2])
+      .then(() => {
+        if (this.todaysMatches && this.todaysMatches.length) {
+          this.calculateRunRate(this.todaysMatches[0].id);
+        }
+        // else if (this.todaysMatches && this.todaysMatches.length == 2){
+          //   this.calculateRunRate(this.todaysMatches[0].id);
+          //   this.calculateRunRate2(this.todaysMatches[1].id);
+          
+          // }
+          
+          this.downloadingDeliveries = false;
+        })
+      .catch(err => {
+        console.log(err);
+      })
+      
+  };
+
+  initialiseData(resolve, reject): void {
+    this.getTodaysMatches(this.todaysDate, resolve, reject);
+
+    setTimeout(() => {
+      this.getSeasonMatches(this.season);
+    }, 1000);
+  }
+
+  getTodaysMatches(todaysDate, resolve, reject): void {
+    this.homeService.getRecords({
+      name: 'matches',
+      collection: 'matches',
+      index: 'date',
+      keyValue: todaysDate
+    })
+      .then(matches => {
+        this.todaysMatches = matches;
+        resolve();
+      })
+      .catch(error => {
+        console.log('error in getting recs: ', error);
+        reject();
+      })
+  }
+
+  getSeasonMatches(season): void {
+    this.homeService.getRecords({
+      name: 'matches',
+      collection: 'matches',
+      index: 'season',
+      keyValue: season
+    })
+      .then(matches => {
+        this.seasonMatches = matches;
+        this.preparePieChartData(matches);
+      })
+      .catch(error => {
+        console.log('error in getting recs: ', error);
+      })
+  };
+
+  preparePieChartData(matches): void {
+    this.pieChartData = this.homeService.preparePieChart(matches);
+  }
+  
+
+  calculateRunRate(matchId): void {
+    this.homeService.calculateRunRate(matchId)
+      .then(runRateData => {
+        this.runrate = runRateData
+      })
+      .catch(err => console.log(err));
+  }
+
+    
+}
