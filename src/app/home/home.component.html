@@ -10,12 +10,5 @@
       <p>{{ todaysMatches[0].team1 }} vs {{ todaysMatches[0].team2 }} </p>
       <run-rate [runratedata]="runrate"></run-rate>
     </div>
-    <div *ngIf="todaysMatches && todaysMatches[1]">
-      <p>{{ todaysMatches[1].team1}} vs {{ todaysMatches[1].team2 }}</p>
-      <run-rate [runratedata]="runrate2"></run-rate>
-    </div>
-    <div>
-      <!-- <app-pie-chart [pieChartData]="pieChartData" ></app-pie-chart> -->
-    </div>
   </div>
 </div>

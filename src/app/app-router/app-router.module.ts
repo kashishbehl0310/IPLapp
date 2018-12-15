@@ -5,7 +5,7 @@ import { SeasonComponent } from '../season/season/season.component';
 // import { SeasonComponent } from '../home/season/season.component';
 const routes: Routes = [{
     path: '',
-    redirectTo: '/dashboard/2016/22-05-2016',
+    redirectTo: '/dashboard/2016/29-05-2016',
     pathMatch: 'full'
 },{
     path: 'dashboard/:season/:date',
